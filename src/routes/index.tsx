@@ -1,9 +1,5 @@
-import { SignOutButton } from "@/components/sign-out-button";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Button } from "@/components/ui/button";
-import { useAuthSuspense } from "@/lib/auth/hooks";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Suspense } from "react";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -15,16 +11,12 @@ function HomePage() {
       <div className="flex flex-col items-center gap-4">
         <h1 className="text-3xl font-bold sm:text-4xl">TanStarter</h1>
         <div className="text-foreground/80 flex items-center gap-2 text-sm max-sm:flex-col">
-          This is an unprotected page:
+          Welcome to your new project!
           <pre className="bg-card text-card-foreground rounded-md border p-1">
             routes/index.tsx
           </pre>
         </div>
       </div>
-
-      <Suspense fallback={<div className="py-6">Loading user...</div>}>
-        <UserAction />
-      </Suspense>
 
       <div className="flex flex-col items-center gap-2">
         <p className="text-foreground/80 max-sm:text-xs">
@@ -40,57 +32,9 @@ function HomePage() {
           .
         </p>
         <div className="flex items-center gap-3">
-          <a
-            className="text-foreground/80 hover:text-foreground underline max-sm:text-sm"
-            href="https://github.com/mugnavo/tanstarter"
-            target="_blank"
-            title="Template repository on GitHub"
-            rel="noreferrer noopener"
-          >
-            mugnavo/tanstarter
-          </a>
-
           <ThemeToggle />
         </div>
       </div>
-    </div>
-  );
-}
-
-function UserAction() {
-  const { user } = useAuthSuspense();
-
-  return user ? (
-    <div className="flex flex-col items-center gap-2">
-      <p>Welcome back, {user.name}!</p>
-      <Button
-        render={<Link to="/app" />}
-        className="mb-2 w-fit"
-        size="lg"
-        nativeButton={false}
-      >
-        Go to App
-      </Button>
-      <div className="text-center text-xs sm:text-sm">
-        Session user:
-        <pre className="max-w-screen overflow-x-auto px-2 text-start">
-          {JSON.stringify(user, null, 2)}
-        </pre>
-      </div>
-
-      <SignOutButton />
-    </div>
-  ) : (
-    <div className="flex flex-col items-center gap-2">
-      <p>You are not signed in.</p>
-      <Button
-        render={<Link to="/login" />}
-        className="w-fit"
-        size="lg"
-        nativeButton={false}
-      >
-        Log in
-      </Button>
     </div>
   );
 }

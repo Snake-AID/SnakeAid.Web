@@ -7,29 +7,18 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 
+import appCss from "@/styles.css?url";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-
-import { authQueryOptions, type AuthQueryResult } from "@/lib/auth/queries";
-import appCss from "@/styles.css?url";
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
-  user: AuthQueryResult;
 }>()({
-  beforeLoad: ({ context }) => {
-    // we're using react-query for client-side caching to reduce client-to-server calls, see /src/router.tsx
-    // better-auth's cookieCache is also enabled server-side to reduce server-to-db calls, see /src/lib/auth/auth.ts
-    context.queryClient.prefetchQuery(authQueryOptions());
-
-    // typically we don't need the user immediately in landing pages,
-    // so we're only prefetching here and not awaiting.
-    // for protected routes with loader data, see /_auth/route.tsx
-  },
+  beforeLoad: () => {},
   head: () => ({
     meta: [
       {
